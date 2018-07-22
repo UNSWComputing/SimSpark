@@ -80,10 +80,6 @@ protected:
 
     /** amount of noise added to beam angle value */
     float mBeamNoiseAngle;
-
-    /** Allow starting at any field position including on opponent's
-        side of the field */
-    bool mStartAnyFieldPosition;
 };
 
 DECLARE_CLASS(BeamEffector);
