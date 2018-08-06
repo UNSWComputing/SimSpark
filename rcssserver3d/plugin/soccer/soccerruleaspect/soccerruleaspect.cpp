@@ -2568,123 +2568,123 @@ SoccerRuleAspect::Update(float deltaTime)
 
     CheckTime();
 
-    TPlayMode playMode = mGameState->GetPlayMode();
+    // TPlayMode playMode = mGameState->GetPlayMode();
 
-    static bool updated = false;
+    // static bool updated = false;
 
-    mLastModeWasPlayOn = false;
+    // mLastModeWasPlayOn = false;
 
-    if (!mAllowKickOffTeamToScore) {
-        // Check if requirements/rules have been met for team taking kickoff 
-        // to score
-        boost::shared_ptr<AgentState> agentState;
-        if (!SoccerBase::GetAgentState(mLastKickOffTaker, agentState))
-            {
-                GetLog()->Error() << "ERROR: (SoccerRuleAspect) Cannot"
-                    " get AgentState from an AgentAspect\n";
-            }
-        else {
-            TTeamIndex team = agentState->GetTeamIndex();
-            bool ballTouchedByKickOffTeam = 
-                mBallState->GetBallCollidingWithAgentTeam(team);
-            bool ballTouchedByNonKickOffTeam = 
-                mBallState->GetBallCollidingWithAgentTeam(SoccerBase::OpponentTeam(team));
-            salt::Vector2f ball_pos(mBallBody->GetPosition().x(), mBallBody->GetPosition().y());
-            bool ballOutsideCenterCircle = ball_pos.Length() > mFreeKickDist;
-            mAllowKickOffTeamToScore = ballTouchedByNonKickOffTeam ||
-                (ballTouchedByKickOffTeam && ballOutsideCenterCircle);
-        }
-    }
+    // if (!mAllowKickOffTeamToScore) {
+    //     // Check if requirements/rules have been met for team taking kickoff 
+    //     // to score
+    //     boost::shared_ptr<AgentState> agentState;
+    //     if (!SoccerBase::GetAgentState(mLastKickOffTaker, agentState))
+    //         {
+    //             GetLog()->Error() << "ERROR: (SoccerRuleAspect) Cannot"
+    //                 " get AgentState from an AgentAspect\n";
+    //         }
+    //     else {
+    //         TTeamIndex team = agentState->GetTeamIndex();
+    //         bool ballTouchedByKickOffTeam = 
+    //             mBallState->GetBallCollidingWithAgentTeam(team);
+    //         bool ballTouchedByNonKickOffTeam = 
+    //             mBallState->GetBallCollidingWithAgentTeam(SoccerBase::OpponentTeam(team));
+    //         salt::Vector2f ball_pos(mBallBody->GetPosition().x(), mBallBody->GetPosition().y());
+    //         bool ballOutsideCenterCircle = ball_pos.Length() > mFreeKickDist;
+    //         mAllowKickOffTeamToScore = ballTouchedByNonKickOffTeam ||
+    //             (ballTouchedByKickOffTeam && ballOutsideCenterCircle);
+    //     }
+    // }
 
-    switch (playMode)
-    {
-    case PM_BeforeKickOff:
-        // At the beginning of the match, we update the member variables
-        // with the values from the ruby script (once). At this point in time,
-        // the ruby script has definitely been processed.
-        if (! updated)
-        {
-            UpdateCachedInternal();
-            updated = true;
-        }
-        // Below is the check we do during before kick off mode.
-        UpdateBeforeKickOff();
-        break;
+    // switch (playMode)
+    // {
+    // case PM_BeforeKickOff:
+    //     // At the beginning of the match, we update the member variables
+    //     // with the values from the ruby script (once). At this point in time,
+    //     // the ruby script has definitely been processed.
+    //     if (! updated)
+    //     {
+    //         UpdateCachedInternal();
+    //         updated = true;
+    //     }
+    //     // Below is the check we do during before kick off mode.
+    //     UpdateBeforeKickOff();
+    //     break;
 
-    case PM_PlayOn:
-        UpdatePlayOn();
-        mLastModeWasPlayOn = true;
-        break;
+    // case PM_PlayOn:
+    //     UpdatePlayOn();
+    //     mLastModeWasPlayOn = true;
+    //     break;
 
-    case PM_KickOff_Left:
-        UpdateKickOff(TI_LEFT);
-        break;
-    case PM_KickOff_Right:
-        UpdateKickOff(TI_RIGHT);
-        break;
+    // case PM_KickOff_Left:
+    //     UpdateKickOff(TI_LEFT);
+    //     break;
+    // case PM_KickOff_Right:
+    //     UpdateKickOff(TI_RIGHT);
+    //     break;
 
-    case PM_FREE_KICK_LEFT:
-        UpdateFreeKick(TI_LEFT, true);
-        break;
-    case PM_FREE_KICK_RIGHT:
-        UpdateFreeKick(TI_RIGHT, true);
-        break;
+    // case PM_FREE_KICK_LEFT:
+    //     UpdateFreeKick(TI_LEFT, true);
+    //     break;
+    // case PM_FREE_KICK_RIGHT:
+    //     UpdateFreeKick(TI_RIGHT, true);
+    //     break;
 
-    case PM_DIRECT_FREE_KICK_LEFT:
-        UpdateFreeKick(TI_LEFT, false);
-        break;
-    case PM_DIRECT_FREE_KICK_RIGHT:
-        UpdateFreeKick(TI_RIGHT, false);
-        break;
+    // case PM_DIRECT_FREE_KICK_LEFT:
+    //     UpdateFreeKick(TI_LEFT, false);
+    //     break;
+    // case PM_DIRECT_FREE_KICK_RIGHT:
+    //     UpdateFreeKick(TI_RIGHT, false);
+    //     break;
 
-    case PM_KickIn_Left:
-        UpdateKickIn(TI_LEFT);
-        break;
-    case PM_KickIn_Right:
-        UpdateKickIn(TI_RIGHT);
-        break;
+    // case PM_KickIn_Left:
+    //     UpdateKickIn(TI_LEFT);
+    //     break;
+    // case PM_KickIn_Right:
+    //     UpdateKickIn(TI_RIGHT);
+    //     break;
 
-    case PM_GOAL_KICK_LEFT:
-        UpdateGoalKick(TI_LEFT);
-        break;
-    case PM_GOAL_KICK_RIGHT:
-        UpdateGoalKick(TI_RIGHT);
-        break;
+    // case PM_GOAL_KICK_LEFT:
+    //     UpdateGoalKick(TI_LEFT);
+    //     break;
+    // case PM_GOAL_KICK_RIGHT:
+    //     UpdateGoalKick(TI_RIGHT);
+    //     break;
 
-    case PM_CORNER_KICK_LEFT:
-        UpdateCornerKick(TI_LEFT);
-        break;
+    // case PM_CORNER_KICK_LEFT:
+    //     UpdateCornerKick(TI_LEFT);
+    //     break;
 
-    case PM_CORNER_KICK_RIGHT:
-        UpdateCornerKick(TI_RIGHT);
-        break;
+    // case PM_CORNER_KICK_RIGHT:
+    //     UpdateCornerKick(TI_RIGHT);
+    //     break;
 
-    case PM_Goal_Left:
-        ClearPlayersBeforeKickOff(TI_RIGHT);
-        UpdateGoal();
-        break;
-    case PM_Goal_Right:
-        ClearPlayersBeforeKickOff(TI_LEFT);
-        UpdateGoal();
-        break;
+    // case PM_Goal_Left:
+    //     ClearPlayersBeforeKickOff(TI_RIGHT);
+    //     UpdateGoal();
+    //     break;
+    // case PM_Goal_Right:
+    //     ClearPlayersBeforeKickOff(TI_LEFT);
+    //     UpdateGoal();
+    //     break;
 
-    case PM_OFFSIDE_LEFT:
-        UpdateOffside(TI_LEFT);
-        break;
-    case PM_OFFSIDE_RIGHT:
-        UpdateOffside(TI_RIGHT);
-        break;
+    // case PM_OFFSIDE_LEFT:
+    //     UpdateOffside(TI_LEFT);
+    //     break;
+    // case PM_OFFSIDE_RIGHT:
+    //     UpdateOffside(TI_RIGHT);
+    //     break;
 
-    case PM_GameOver:
-        UpdateGameOver();
-        break;
+    // case PM_GameOver:
+    //     UpdateGameOver();
+    //     break;
 
-    default:
-        GetLog()->Error()
-            << "ERROR: (SoccerRuleAspect) unknown play mode "
-            << playMode << "\n";
-        break;
-    }
+    // default:
+    //     GetLog()->Error()
+    //         << "ERROR: (SoccerRuleAspect) unknown play mode "
+    //         << playMode << "\n";
+    //     break;
+    // }
 
     //Get velocity to calculate averages
     SoccerBase::TAgentStateList agent_states;
@@ -2722,7 +2722,7 @@ SoccerRuleAspect::Update(float deltaTime)
 #endif // RVDRAW
 
     // Simple Referee
-    AutomaticSimpleReferee();
+    // AutomaticSimpleReferee();
 }
 
 void
