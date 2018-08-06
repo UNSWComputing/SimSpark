@@ -54,7 +54,7 @@ end
 $agentStep = 0.01
 $agentType = 'tcp'
 $agentPort = 3100
-$agentSyncMode = false
+$agentSyncMode = ENV['SPARK_FAST_TIME'] == "true"
 $threadedAgentControl = true
 
 # (MonitorControl) constants
