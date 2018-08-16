@@ -104,6 +104,7 @@
             (addNoise true)
             (setInterval 3)
             (setSenseLine true)
+            (setSenseFieldFeature true)
         )
 
 	;; (nd Transform

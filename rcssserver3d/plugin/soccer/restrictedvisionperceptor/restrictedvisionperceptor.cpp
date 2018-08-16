@@ -42,7 +42,8 @@ RestrictedVisionPerceptor::RestrictedVisionPerceptor() : Perceptor(),
                                      mSenseBallPos(false),
                                      mAddNoise(true),
                                      mStaticSenseAxis(true),
-                                     mSenseLine(false)
+                                     mSenseLine(false),
+                                     mSenseFieldFeature(false)
 {
     // set predicate name
     SetPredicateName("See");
@@ -629,6 +630,11 @@ RestrictedVisionPerceptor::DynamicAxisPercept(boost::shared_ptr<PredicateList> p
       SenseLine(predicate);
     }
 
+    if (mSenseFieldFeature)
+    {
+      SenseFieldFeature(predicate);
+    }
+
     return true;
 }
 
@@ -910,6 +916,132 @@ RestrictedVisionPerceptor::SetupLines(TLineList& visibleLines)
   }
 }
 
+
+void RestrictedVisionPerceptor::SenseFieldFeature(Predicate& predicate)
+{
+    TFieldFeatureList visibleFieldFeatures;
+    SetupFieldFeatures(visibleFieldFeatures);
+
+    // determine position relative to the local reference frame
+    const Matrix& mat = mTransformParent->GetWorldTransform();
+
+    // get the transformation matrix describing the current orientation
+    Vector3f myPos = mat.Pos();
+
+    
+    for (TFieldFeatureList::iterator i = visibleFieldFeatures.begin(); i != visibleFieldFeatures.end(); )
+    {
+        FieldFeatureData& ffd = (*i);
+        
+        Vector3f localRelPos = mat.InverseRotate(ffd.mRelPos);
+
+        // std::cout << localRelPos << std::endl;
+        
+        // theta is the angle in horizontal plane, with fwAngle as 0 degree
+        ffd.mTheta = gNormalizeDeg (gRadToDeg(gNormalizeRad(
+                        gArcTan2(localRelPos[1],localRelPos[0])
+                        )) -90 );
+
+        const int hAngle_2 = mHViewCone >> 1;
+        if (gAbs(ffd.mTheta) > hAngle_2)
+        {
+            // object is out of view range
+            // GetLog()->Debug() << "(RestrictedVisionPerceptor) Omitting "
+            //     << od.mObj->GetPerceptName() << od.mObj->GetID()
+            //     << ": h-angle = " << od.mTheta << ".\n" ;
+            i = visibleFieldFeatures.erase(i);
+            continue;
+        }
+
+        // latitude with fwPhi as 0 degreee
+        ffd.mPhi = gRadToDeg(gNormalizeRad(
+                        gArcTan2(localRelPos[2],
+                                    Vector2f(localRelPos[0], localRelPos[1]).Length()
+                                )
+                        )
+                    );
+
+        const int vAngle_2 = mVViewCone >> 1;
+        if (gAbs(ffd.mPhi) > vAngle_2)
+        {
+            i = visibleFieldFeatures.erase(i);
+            continue;
+        }
+
+        ffd.mRelOrientation = gNormalizeDeg ( ffd.mOrientation - 
+                        gRadToDeg(gNormalizeRad(
+                        gArcTan2(-ffd.mRelPos[1],-ffd.mRelPos[0]))));
+
+        std::cout << -ffd.mRelPos[0] << "," << -ffd.mRelPos[1] << std::endl;
+
+        std::cout << gNormalizeDeg ( ffd.mOrientation - 
+                        gRadToDeg(gNormalizeRad(
+                        gArcTan2(-ffd.mRelPos[1],-ffd.mRelPos[0]))))  << std::endl;
+
+        // make some noise
+        // ApplyNoise(ffd);
+
+        ++i;
+
+    }
+
+    AddSense(predicate, visibleFieldFeatures);
+}
+
+void
+RestrictedVisionPerceptor::SetupFieldFeatures(TFieldFeatureList& visibleFieldFeatures)
+{
+    TLeafList fieldFeaturesList;
+    mActiveScene->GetChildrenOfClass("FieldFeature", fieldFeaturesList, true);
+
+    // determine position relative to the local reference frame
+    const Matrix& mat = mTransformParent->GetWorldTransform();
+
+    // get the transformation matrix describing the current orientation
+    Vector3f myPos = mat.Pos();
+
+    for (TLeafList::iterator i = fieldFeaturesList.begin(); i != fieldFeaturesList.end(); ++i)
+    {
+        FieldFeatureData ffd;
+
+        ffd.mFieldFeature = static_pointer_cast<FieldFeature> (*i);
+        
+        if (ffd.mFieldFeature.get() == 0)
+        {
+            continue; // this should never happen
+        }
+
+        // boost::shared_ptr<Transform> j = ffd.mFieldFeature->GetTransformParent();
+
+        // if (j.get() == 0)
+        // {
+        //     continue; // this should never happen
+        // }
+
+        // std::cout << "orientation:" << ffd.mFieldFeature->Orientation() << std::endl;
+        // std::cout << "type:" << ffd.mFieldFeature->Type() << std::endl;
+        // std::cout << "position: " << ffd.mFieldFeature->Position() << std::endl;
+
+        boost::shared_ptr<Transform> j = ffd.mFieldFeature->GetTransformParent();
+
+        ffd.mRelPos = j->GetWorldTransform().Pos() - myPos;
+        ffd.mDist = ffd.mRelPos.Length();
+        ffd.mOrientation = ffd.mFieldFeature->Orientation();
+        ffd.mType = ffd.mFieldFeature->Type();
+
+        if (j.get() == 0)
+        {
+            continue; // this should never happen
+        }
+
+        // const salt::Matrix& t = j->GetWorldTransform();
+        // ld.mBeginPoint.mRelPos =   mat.InverseRotate( t * ld.mLine->BeginPoint() - myPos );
+        // ld.mEndPoint.mRelPos = mat.InverseRotate( t * ld.mLine->EndPoint() - myPos );
+
+        visibleFieldFeatures.push_back(ffd);
+    }
+}
+
 void RestrictedVisionPerceptor::AddSense(Predicate& predicate, const TLineList& lineList) const
 {
   for (TLineList::const_iterator i = lineList.begin(); i != lineList.end(); ++i)
@@ -932,7 +1064,32 @@ void RestrictedVisionPerceptor::AddSense(Predicate& predicate, const TLineList& 
   }
 }
 
+void RestrictedVisionPerceptor::AddSense(Predicate& predicate, const TFieldFeatureList& fieldFeatureList) const
+{
+  for (TFieldFeatureList::const_iterator i = fieldFeatureList.begin(); i != fieldFeatureList.end(); ++i)
+  {
+    const FieldFeatureData& ffd = (*i);
+    ParameterList& element = predicate.parameter.AddList();
+    if (ffd.mType == "CORNER") element.AddValue(std::string("CNR"));
+    else if (ffd.mType == "T_JUNTION") element.AddValue(std::string("TJ"));
+    else if (ffd.mType == "CENTRE_CIRCLE") element.AddValue(std::string("CC"));
+
+    ParameterList& position = element.AddList();
+    position.AddValue(std::string("ffs"));
+    position.AddValue(ffd.mDist);
+    position.AddValue(ffd.mTheta);
+    position.AddValue(ffd.mPhi);
+    position.AddValue(ffd.mRelOrientation);
+  }
+}
+
+
 void RestrictedVisionPerceptor::SetSenseLine(bool sense)
 {
   mSenseLine = sense;
+}
+
+void RestrictedVisionPerceptor::SetSenseFieldFeature(bool sense)
+{
+  mSenseFieldFeature = sense;
 }

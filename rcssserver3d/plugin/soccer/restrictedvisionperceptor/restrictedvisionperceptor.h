@@ -31,6 +31,7 @@
 #include <agentstate/agentstate.h>
 #include "../line/line.h"
 #include "../ball/ball.h"
+#include "../fieldfeature/fieldfeature.h"
 
 class RestrictedVisionPerceptor : public oxygen::Perceptor
 {
@@ -76,7 +77,20 @@ protected:
       ObjectData mEndPoint;
     };
 
+    struct FieldFeatureData
+    {
+        boost::shared_ptr<FieldFeature> mFieldFeature;
+        float mTheta;  // angle in the X-Y (horizontal) plane
+        float mPhi;    // latitude angle
+        float mDist;  // distance between perceptor and object
+        salt::Vector3f mRelPos; //position relative to perceptor
+        float mOrientation; //absolute orientation in X-Y plane
+        float mRelOrientation; // relative orientation to robot
+        std::string mType; // CORNER, T_JUNCTION or CENTRE_CIRCLE
+    };
+
     typedef std::list<LineData> TLineList;
+    typedef std::list<FieldFeatureData> TFieldFeatureList;
 
 public:
     RestrictedVisionPerceptor();
@@ -113,6 +127,9 @@ public:
 
     // turn sensing of lines on/off
     void SetSenseLine(bool sense);
+
+    // turn sensing of lines on/off
+    void SetSenseFieldFeature(bool sense);
 
     /** Turn noise off/on.
         \param add_noise flag if noise should be used at all.
@@ -187,6 +204,11 @@ protected:
 
     void SetupLines(TLineList& visibleLines);
 
+    /** Percept field features in the world */
+    void SenseFieldFeature(oxygen::Predicate& predicate);
+
+    void SetupFieldFeatures(TFieldFeatureList& visibleFieldFeatures);
+
     bool CheckVisuable(ObjectData& od) const;
 
     /** Checks if the given object is occluded, seen from from my_pos */
@@ -201,6 +223,9 @@ protected:
 
     void AddSense(oxygen::Predicate& predicate,
                   const TLineList& lineList) const;
+
+    void AddSense(oxygen::Predicate& predicate,
+                  const TFieldFeatureList& fieldFeatureList) const;
 
     /** applies noise to the setup ObjectData */
     void ApplyNoise(ObjectData& od) const;
@@ -239,6 +264,9 @@ protected:
 
     /** flag if the lines can be sensed */
     bool mSenseLine;
+
+    /** flag if the lines can be sensed */
+    bool mSenseFieldFeature;  
 
     //! horizontal opening of the vision cone
     unsigned int mHViewCone;
