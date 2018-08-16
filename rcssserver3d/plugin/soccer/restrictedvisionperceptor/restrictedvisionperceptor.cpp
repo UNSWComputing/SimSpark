@@ -235,6 +235,7 @@ RestrictedVisionPerceptor::SetupVisibleNodes(TNodeObjectsMap& visibleNodes)
     mActiveScene->GetChildrenOfClass("ObjectState", objectList, true);
 
     salt::Vector3f myPos = mTransformParent->GetWorldTransform().Pos();
+    // std::cout << "muPos:" << myPos << std::endl;
 
     for (TLeafList::iterator i = objectList.begin();
         i != objectList.end(); ++i)
@@ -281,6 +282,8 @@ RestrictedVisionPerceptor::SetupVisibleNodes(TNodeObjectsMap& visibleNodes)
 
         od.mRelPos = j->GetWorldTransform().Pos() - myPos;
         od.mDist   = od.mRelPos.Length();
+        // std::cout << od.mObj.get()->GetPerceptName() << od.mRelPos << std::endl;
+        // od.mOrientation = od.orientation - myHeading;
 
         visibleNodes[node].push_back(od);
 	}
@@ -491,6 +494,11 @@ RestrictedVisionPerceptor::StaticAxisPercept(boost::shared_ptr<PredicateList> pr
     if (mSenseLine)
     {
         SenseLine(predicate);
+    }
+
+    if (mSenseFieldFeature)
+    {
+        SenseFieldFeature(predicate);
     }
 
     return true;

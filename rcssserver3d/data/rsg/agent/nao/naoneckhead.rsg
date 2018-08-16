@@ -96,7 +96,7 @@
                               $he2_max_abs_speed)
 
         (nd RestrictedVisionPerceptor
-            (setViewCones 120 120)
+            (setViewCones 60.97 120)
             (setSenseMyPos false)
             (setSenseMyOrien false)
             (setSenseBallPos false)

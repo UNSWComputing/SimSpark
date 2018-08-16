@@ -130,6 +130,8 @@ set(soccer_LIB_SRCS
    hmdp_effector/naospecific.cpp
    line/line.cpp
    line/line_c.cpp
+   corner/corner.cpp
+   corner/corner_c.cpp
    agentcollisionhandler/agentcollisionhandler.cpp
    agentcollisionhandler/agentcollisionhandler_c.cpp
    rcs3dmonitor/rcs3dmonitor.cpp
