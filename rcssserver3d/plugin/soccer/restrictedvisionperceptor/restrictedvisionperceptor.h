@@ -85,7 +85,7 @@ protected:
         float mDist;  // distance between perceptor and object
         salt::Vector3f mRelPos; //position relative to perceptor
         float mOrientation; //absolute orientation in X-Y plane
-        float mRelOrientation; // relative orientation to robot
+        float mRelOrientation; // relative orientation of orientation to robot (using runswift conventions)
         std::string mType; // CORNER, T_JUNCTION or CENTRE_CIRCLE
     };
 
@@ -128,7 +128,7 @@ public:
     // turn sensing of lines on/off
     void SetSenseLine(bool sense);
 
-    // turn sensing of lines on/off
+    // turn sensing of fieldfeatures on/off
     void SetSenseFieldFeature(bool sense);
 
     /** Turn noise off/on.

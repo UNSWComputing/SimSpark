@@ -103,7 +103,7 @@
             (setStaticSenseAxis false)
             (addNoise true)
             (setInterval 3)
-            (setSenseLine true)
+            (setSenseLine false)
             (setSenseFieldFeature true)
         )
 

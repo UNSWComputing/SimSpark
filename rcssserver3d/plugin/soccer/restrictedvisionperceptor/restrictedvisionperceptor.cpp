@@ -43,7 +43,7 @@ RestrictedVisionPerceptor::RestrictedVisionPerceptor() : Perceptor(),
                                      mAddNoise(true),
                                      mStaticSenseAxis(true),
                                      mSenseLine(false),
-                                     mSenseFieldFeature(false)
+                                     mSenseFieldFeature(true)
 {
     // set predicate name
     SetPredicateName("See");
@@ -236,7 +236,6 @@ RestrictedVisionPerceptor::SetupVisibleNodes(TNodeObjectsMap& visibleNodes)
     mActiveScene->GetChildrenOfClass("ObjectState", objectList, true);
 
     salt::Vector3f myPos = mTransformParent->GetWorldTransform().Pos();
-    // std::cout << "muPos:" << myPos << std::endl;
 
     for (TLeafList::iterator i = objectList.begin();
         i != objectList.end(); ++i)
@@ -932,8 +931,6 @@ void RestrictedVisionPerceptor::SenseFieldFeature(Predicate& predicate)
         FieldFeatureData& ffd = (*i);
         
         Vector3f localRelPos = mat.InverseRotate(ffd.mRelPos);
-
-        // std::cout << localRelPos << std::endl;
         
         // theta is the angle in horizontal plane, with fwAngle as 0 degree
         ffd.mTheta = gNormalizeDeg (gRadToDeg(gNormalizeRad(
@@ -943,10 +940,6 @@ void RestrictedVisionPerceptor::SenseFieldFeature(Predicate& predicate)
         const int hAngle_2 = mHViewCone >> 1;
         if (gAbs(ffd.mTheta) > hAngle_2)
         {
-            // object is out of view range
-            // GetLog()->Debug() << "(RestrictedVisionPerceptor) Omitting "
-            //     << od.mObj->GetPerceptName() << od.mObj->GetID()
-            //     << ": h-angle = " << od.mTheta << ".\n" ;
             i = visibleFieldFeatures.erase(i);
             continue;
         }
@@ -968,6 +961,7 @@ void RestrictedVisionPerceptor::SenseFieldFeature(Predicate& predicate)
 
         ffd.mRelOrientation = gNormalizeDeg ( gRadToDeg(gNormalizeRad(
                         gArcTan2(-ffd.mRelPos[1],-ffd.mRelPos[0]))) - ffd.mOrientation);
+        
         // make some noise
         // ApplyNoise(ffd);
 
@@ -1001,16 +995,6 @@ RestrictedVisionPerceptor::SetupFieldFeatures(TFieldFeatureList& visibleFieldFea
             continue; // this should never happen
         }
 
-        // boost::shared_ptr<Transform> j = ffd.mFieldFeature->GetTransformParent();
-
-        // if (j.get() == 0)
-        // {
-        //     continue; // this should never happen
-        // }
-
-        // std::cout << "orientation:" << ffd.mFieldFeature->Orientation() << std::endl;
-        // std::cout << "type:" << ffd.mFieldFeature->Type() << std::endl;
-
         boost::shared_ptr<Transform> j = ffd.mFieldFeature->GetTransformParent();
 
         ffd.mRelPos = j->GetWorldTransform().Pos() - myPos;
@@ -1022,10 +1006,6 @@ RestrictedVisionPerceptor::SetupFieldFeatures(TFieldFeatureList& visibleFieldFea
         {
             continue; // this should never happen
         }
-
-        // const salt::Matrix& t = j->GetWorldTransform();
-        // ld.mBeginPoint.mRelPos =   mat.InverseRotate( t * ld.mLine->BeginPoint() - myPos );
-        // ld.mEndPoint.mRelPos = mat.InverseRotate( t * ld.mLine->EndPoint() - myPos );
 
         visibleFieldFeatures.push_back(ffd);
     }
