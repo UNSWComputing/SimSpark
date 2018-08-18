@@ -968,16 +968,8 @@ void RestrictedVisionPerceptor::SenseFieldFeature(Predicate& predicate)
             continue;
         }
 
-        ffd.mRelOrientation = gNormalizeDeg ( ffd.mOrientation - 
-                        gRadToDeg(gNormalizeRad(
-                        gArcTan2(-ffd.mRelPos[1],-ffd.mRelPos[0]))));
-
-        std::cout << -ffd.mRelPos[0] << "," << -ffd.mRelPos[1] << std::endl;
-
-        std::cout << gNormalizeDeg ( ffd.mOrientation - 
-                        gRadToDeg(gNormalizeRad(
-                        gArcTan2(-ffd.mRelPos[1],-ffd.mRelPos[0]))))  << std::endl;
-
+        ffd.mRelOrientation = gNormalizeDeg ( gRadToDeg(gNormalizeRad(
+                        gArcTan2(-ffd.mRelPos[1],-ffd.mRelPos[0]))) - ffd.mOrientation);
         // make some noise
         // ApplyNoise(ffd);
 
@@ -1071,7 +1063,7 @@ void RestrictedVisionPerceptor::AddSense(Predicate& predicate, const TFieldFeatu
     const FieldFeatureData& ffd = (*i);
     ParameterList& element = predicate.parameter.AddList();
     if (ffd.mType == "CORNER") element.AddValue(std::string("CNR"));
-    else if (ffd.mType == "T_JUNTION") element.AddValue(std::string("TJ"));
+    else if (ffd.mType == "T_JUNCTION") element.AddValue(std::string("TJ"));
     else if (ffd.mType == "CENTRE_CIRCLE") element.AddValue(std::string("CC"));
 
     ParameterList& position = element.AddList();
