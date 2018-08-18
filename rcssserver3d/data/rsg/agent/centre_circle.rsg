@@ -1,0 +1,19 @@
+; -*- mode: lisp; -*-
+;
+; create a centre circle at ($PosX $PosY $PosZ $Orientation) named $Name with the
+; given $Material
+;
+
+(RSG 0 1)
+(
+    (templ $PosX $PosY $Orientation)
+
+    (nd Transform
+        (setLocalPos $PosX $PosY 0)
+        (nd FieldFeature
+           (setPosition $PosX $PosY 0)
+           (setOrientation $Orientation)
+           (setType CENTRE_CIRCLE)
+        )
+    )
+)
