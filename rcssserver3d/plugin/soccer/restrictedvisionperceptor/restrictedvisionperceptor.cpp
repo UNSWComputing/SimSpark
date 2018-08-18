@@ -283,8 +283,6 @@ RestrictedVisionPerceptor::SetupVisibleNodes(TNodeObjectsMap& visibleNodes)
 
         od.mRelPos = j->GetWorldTransform().Pos() - myPos;
         od.mDist   = od.mRelPos.Length();
-        // std::cout << od.mObj.get()->GetPerceptName() << od.mRelPos << std::endl;
-        // od.mOrientation = od.orientation - myHeading;
 
         visibleNodes[node].push_back(od);
 	}
@@ -1012,7 +1010,6 @@ RestrictedVisionPerceptor::SetupFieldFeatures(TFieldFeatureList& visibleFieldFea
 
         // std::cout << "orientation:" << ffd.mFieldFeature->Orientation() << std::endl;
         // std::cout << "type:" << ffd.mFieldFeature->Type() << std::endl;
-        // std::cout << "position: " << ffd.mFieldFeature->Position() << std::endl;
 
         boost::shared_ptr<Transform> j = ffd.mFieldFeature->GetTransformParent();
 

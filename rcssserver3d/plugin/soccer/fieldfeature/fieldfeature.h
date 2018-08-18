@@ -9,10 +9,8 @@ public:
     FieldFeature();
     virtual ~FieldFeature();
 
-    salt::Vector3f& Position() { return mPosition; }
     float& Orientation() { return mOrientation; }
     std::string& Type() { return mType; }
-    const salt::Vector3f& Position() const { return mPosition; }
     const float& Orientation() const { return mOrientation; }
     const std::string& Type() const { return mType; }
 
@@ -20,7 +18,6 @@ public:
 
 protected:
 
-  salt::Vector3f mPosition;
   float mOrientation;
   std::string mType;
 };
