@@ -48,7 +48,7 @@ RestrictedVisionPerceptor::RestrictedVisionPerceptor() : Perceptor(),
     // set predicate name
     SetPredicateName("See");
     // set some default noise values
-    SetNoiseParams(0.0965f, 0.1225f, 0.1480f, 0.005f);
+    SetNoiseParams(0.0965f, 0.1225f, 0.1480f, 0.1480f, 0.005f);
     SetViewCones(90,90);
     SetPanRange(-90,90);
     SetTiltRange(-20,20);
@@ -60,15 +60,18 @@ RestrictedVisionPerceptor::~RestrictedVisionPerceptor()
     mDistRng.reset();
     mPhiRng.reset();
     mThetaRng.reset();
+    mRelOrientationRng.reset();
 }
 
 void
 RestrictedVisionPerceptor::SetNoiseParams(float sigma_dist, float sigma_phi,
-                                float sigma_theta, float cal_error_abs)
+                                float sigma_theta, float sigma_rel_orientation,
+                                float cal_error_abs)
 {
     mSigmaDist = sigma_dist;
     mSigmaPhi = sigma_phi;
     mSigmaTheta = sigma_theta;
+    mSigmaRelOrientation = sigma_rel_orientation;
     mCalErrorAbs = cal_error_abs;
 
     NormalRngPtr rng1(new salt::NormalRNG<>(0.0,sigma_dist));
@@ -77,9 +80,11 @@ RestrictedVisionPerceptor::SetNoiseParams(float sigma_dist, float sigma_phi,
     mPhiRng = rng2;
     NormalRngPtr rng3(new salt::NormalRNG<>(0.0,sigma_theta));
     mThetaRng = rng3;
+    NormalRngPtr rng4(new salt::NormalRNG<>(0.0,sigma_rel_orientation));
+    mRelOrientationRng = rng4;
 
-    salt::UniformRNG<float> rng4(-mCalErrorAbs,mCalErrorAbs);
-    mError = salt::Vector3f(rng4(),rng4(),rng4());
+    salt::UniformRNG<float> rng5(-mCalErrorAbs,mCalErrorAbs);
+    mError = salt::Vector3f(rng5(),rng5(),rng5());
 }
 
 void
@@ -195,6 +200,7 @@ RestrictedVisionPerceptor::OnUnlink()
     mDistRng.reset();
     mPhiRng.reset();
     mThetaRng.reset();
+    mRelOrientationRng.reset();
     mTransformParent.reset();
     mAgentAspect.reset();
     mAgentState.reset();
@@ -384,6 +390,18 @@ RestrictedVisionPerceptor::ApplyNoise(ObjectData& od) const
         od.mDist  += (*(mDistRng.get()))() * od.mDist / 100.0;
         od.mTheta += (*(mThetaRng.get()))();
         od.mPhi   += (*(mPhiRng.get()))();
+    }
+}
+
+void
+RestrictedVisionPerceptor::ApplyNoiseFieldFeature(FieldFeatureData& ffd) const
+{
+    if (mAddNoise)
+    {
+        ffd.mDist  += (*(mDistRng.get()))() * ffd.mDist / 100.0;
+        ffd.mTheta += (*(mThetaRng.get()))();
+        ffd.mPhi   += (*(mPhiRng.get()))();
+        ffd.mRelOrientation +=  (*(mRelOrientationRng.get()))();
     }
 }
 
@@ -963,7 +981,7 @@ void RestrictedVisionPerceptor::SenseFieldFeature(Predicate& predicate)
                         gArcTan2(-ffd.mRelPos[1],-ffd.mRelPos[0]))) - ffd.mOrientation);
         
         // make some noise
-        // ApplyNoise(ffd);
+        ApplyNoiseFieldFeature(ffd);
 
         ++i;
 

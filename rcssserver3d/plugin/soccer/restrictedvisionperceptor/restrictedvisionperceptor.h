@@ -110,11 +110,13 @@ public:
      * \param sigma_dist the sigma for the distance error distribution
      * \param sigma_phi the sigma for the horizontal angle error distribution
      * \param sigma_theta the sigma for the latitudal angle error distribution
+     * \param sigma_rel_orientation the sigma for relative orientation angle error distribution
      * \param cal_error_abs absolute value of the maximum calibration error
      *                      along each axis.
      */
     void SetNoiseParams(float sigma_dist, float sigma_phi,
-                        float sigma_theta, float cal_error_abs);
+                        float sigma_theta, float sigma_rel_orientation,
+                        float cal_error_abs);
 
     //! Turn sensing of agent position on/off
     void SetSenseMyPos(bool sense);
@@ -230,6 +232,9 @@ protected:
     /** applies noise to the setup ObjectData */
     void ApplyNoise(ObjectData& od) const;
 
+    /** applies noise to the setup FieldFeatureData */
+    void ApplyNoiseFieldFeature(FieldFeatureData& ffd) const;
+
     virtual void OnLink();
     virtual void OnUnlink();
 
@@ -252,6 +257,8 @@ protected:
     float mSigmaTheta;
     //! sigma for random measurement error (latitudal angle)
     float mSigmaPhi;
+    //! sigma for random measurement error (relative orientation)
+    float mSigmaRelOrientation;    
     //! absolute maximum value of the calibration error
     float mCalErrorAbs;
     //! flag if we should noisify the data
@@ -294,6 +301,8 @@ protected:
     NormalRngPtr mThetaRng;
     //! random number generator for angle errors
     NormalRngPtr mPhiRng;
+    //! random number generator for relative orientation errors
+    NormalRngPtr mRelOrientationRng;
 
     boost::shared_ptr<oxygen::Scene> mActiveScene;
     //! a reference to the next transorm parent
