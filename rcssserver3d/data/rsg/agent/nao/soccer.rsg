@@ -11,7 +11,7 @@
  (def $FieldHeight (eval Soccer.FieldHeight))
  (def $GoalDepth   (eval Soccer.GoalDepth))
  (def $PenaltyLength (eval Soccer.PenaltyLength))
- (def $PenaltyWidth (eval Soccer.PenaltyWidth + Soccer.GoalWidth))
+ (def $PenaltyWidth (eval Soccer.PenaltyWidth))
  (def $FreeKickDistance (eval Soccer.FreeKickDistance))
 
  ;; height of the field ground plane
@@ -101,6 +101,19 @@
 
  ;; create the left goal
  (def $LeftGoalX (eval -1* (eval $FieldHalfLength + $GoalHalfDepth)))
+  (importScene rsg/agent/nao/goal.rsg
+	      leftgoal
+	      $LeftGoalX 0 0
+	      G1L G2L
+	      matWhite)
+
+ ;; create the right goal
+ (def $RightGoalX (eval -1 * $LeftGoalX))
+ (importScene rsg/agent/nao/goal.rsg
+	      rightgoal
+	      $RightGoalX 0 180
+	      G2R G1R
+	      matWhite)
 
 
  (def $SideLength (eval $SideExt + (eval $FieldLength + (eval 2 * $BorderLength))))
@@ -175,30 +188,38 @@
  ;; Left top goal box corner
  (importScene rsg/agent/corner.rsg
 	      (eval -1 * (eval $FieldHalfLength - $PenaltyLength))
-	      (eval $PenaltyWidth / 2)
+	      $PenaltyHalfWidth
 		  -135
 	      )
+
  ;; Left bottom goal box corner
  (importScene rsg/agent/corner.rsg
 	      (eval -1 * (eval $FieldHalfLength - $PenaltyLength))
-	      (eval -1 * (eval $PenaltyWidth / 2))
+	      (eval -1 * $PenaltyHalfWidth)
 		  135
 	      )
 
-;; Added the following for our simulation
-;;
-;; Centre circle						CC
-;; Penalty spot left					PSL
-;; Penalty spot right					PSR
-;; Goal box corner left 1				GCL1
-;; Goal box corner left 2				GCL2
-;; Goal box corner right 1				GCR1
-;; Goal box corner right 2				GCR2
-;; Goal box t-intersection left 1		GTL1
-;; Goal box t-intersection left 2		GTL2
-;; Goal box t-intersection right 1		GTR1
-;; Goal box t-intersection right 2		GTR2
+ ;;
+ ;; add T-junctions
+ ;;
 
+ ;; T-junction top
+ (importScene rsg/agent/t_junction.rsg
+	      0
+		  $FieldHalfWidth
+		  -90
+	      )
+
+ ;;
+ ;; add centre circle
+ ;;
+
+ ;; Centre circle
+ (importScene rsg/agent/centre_circle.rsg
+	      0
+		  0
+		  -90
+	      )
 
 ;;
 ;; add field lines
