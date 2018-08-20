@@ -103,7 +103,9 @@
             (setStaticSenseAxis false)
             (addNoise true)
             (setInterval 3)
-            (setSenseLine true)
+            (setSenseLine false)
+            (setSenseFieldFeature true)
+            (setNoiseParams 3.000 3.1225 3.1480 7.0 0.005)
         )
 
 	;; (nd Transform

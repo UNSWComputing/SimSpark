@@ -11,7 +11,7 @@
  (def $FieldHeight (eval Soccer.FieldHeight))
  (def $GoalDepth   (eval Soccer.GoalDepth))
  (def $PenaltyLength (eval Soccer.PenaltyLength))
- (def $PenaltyWidth (eval Soccer.PenaltyWidth + Soccer.GoalWidth))
+ (def $PenaltyWidth (eval Soccer.PenaltyWidth))
  (def $FreeKickDistance (eval Soccer.FreeKickDistance))
 
  ;; height of the field ground plane
@@ -167,37 +167,59 @@
        )
 
  ;;
- ;; add flags
+ ;; add corners
  ;;
 
- ;; mark the soccer field with 4 field flags (no visualization)
- (importScene rsg/agent/flag_no_viz.rsg
+ ;; Left top corner
+ (importScene rsg/agent/corner.rsg
 	      (eval -1 * $FieldHalfLength)  
 	      $FieldHalfWidth
-	      0
-	      F1L
+		  -45
 	      )
 
- (importScene rsg/agent/flag_no_viz.rsg
-	      (eval -1 * $FieldHalfLength) 
+ ;; Left bottom corner
+ (importScene rsg/agent/corner.rsg
+	      (eval -1 * $FieldHalfLength)  
 	      (eval -1 * $FieldHalfWidth)
-	      0
-	      F2L
+		  45
 	      )
 
- (importScene rsg/agent/flag_no_viz.rsg
-	      $FieldHalfLength 
-	      $FieldHalfWidth 
-	      0
-	      F1R
+ ;; Left top goal box corner
+ (importScene rsg/agent/corner.rsg
+	      (eval -1 * (eval $FieldHalfLength - $PenaltyLength))
+	      $PenaltyHalfWidth
+		  -135
 	      )
 
- (importScene rsg/agent/flag_no_viz.rsg
-	      $FieldHalfLength 
-	      (eval -1 * $FieldHalfWidth) 
-	      0 
-	      F2R
+ ;; Left bottom goal box corner
+ (importScene rsg/agent/corner.rsg
+	      (eval -1 * (eval $FieldHalfLength - $PenaltyLength))
+	      (eval -1 * $PenaltyHalfWidth)
+		  135
 	      )
+
+ ;;
+ ;; add T-junctions
+ ;;
+
+ ;; T-junction top
+ (importScene rsg/agent/t_junction.rsg
+	      0
+		  $FieldHalfWidth
+		  -90
+	      )
+
+ ;;
+ ;; add centre circle
+ ;;
+
+ ;; Centre circle
+ (importScene rsg/agent/centre_circle.rsg
+	      0
+		  0
+		  -90
+	      )
+
 ;;
 ;; add field lines
 ;;

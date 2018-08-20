@@ -47,6 +47,7 @@ set(soccer_LIB_HDRS
    hmdp_effector/hmdpperceptor.h
    hmdp_effector/naospecific.h
    line/line.h
+   fieldfeature/fieldfeature.h
    agentcollisionhandler/agentcollisionhandler.h
    rcs3dmonitor/rcs3dmonitor.h
 )
@@ -130,6 +131,8 @@ set(soccer_LIB_SRCS
    hmdp_effector/naospecific.cpp
    line/line.cpp
    line/line_c.cpp
+   fieldfeature/fieldfeature.cpp
+   fieldfeature/fieldfeature_c.cpp
    agentcollisionhandler/agentcollisionhandler.cpp
    agentcollisionhandler/agentcollisionhandler_c.cpp
    rcs3dmonitor/rcs3dmonitor.cpp

@@ -31,20 +31,22 @@ FUNCTION(RestrictedVisionPerceptor,setNoiseParams)
     float inDist;
     float inPhi;
     float inTheta;
+    float inRelOrientation;
     float inErrorAbs;
 
     if (
-        (in.GetSize() != 4) ||
+        (in.GetSize() != 5) ||
         (! in.GetValue(in[0],inDist)) ||
         (! in.GetValue(in[1],inPhi)) ||
         (! in.GetValue(in[2],inTheta)) ||
-        (! in.GetValue(in[3],inErrorAbs))
+        (! in.GetValue(in[3],inRelOrientation)) ||
+        (! in.GetValue(in[4],inErrorAbs))
         )
         {
             return false;
         }
 
-    obj->SetNoiseParams(inDist,inPhi,inTheta,inErrorAbs);
+    obj->SetNoiseParams(inDist,inPhi,inTheta,inRelOrientation,inErrorAbs);
     return true;
 }
 
@@ -198,6 +200,22 @@ FUNCTION(RestrictedVisionPerceptor,setSenseLine)
     return true;
 }
 
+FUNCTION(RestrictedVisionPerceptor,setSenseFieldFeature)
+{
+    bool inSenseFieldFeature;
+
+    if (
+        (in.GetSize() != 1) ||
+        (! in.GetValue(in.begin(),inSenseFieldFeature))
+        )
+        {
+            return false;
+        }
+
+    obj->SetSenseFieldFeature(inSenseFieldFeature);
+    return true;
+}
+
 void CLASS(RestrictedVisionPerceptor)::DefineClass()
 {
     DEFINE_BASECLASS(oxygen/Perceptor);
@@ -211,4 +229,5 @@ void CLASS(RestrictedVisionPerceptor)::DefineClass()
     DEFINE_FUNCTION(setPanRange);
     DEFINE_FUNCTION(setTiltRange);
     DEFINE_FUNCTION(setSenseLine);
+    DEFINE_FUNCTION(setSenseFieldFeature);
 }

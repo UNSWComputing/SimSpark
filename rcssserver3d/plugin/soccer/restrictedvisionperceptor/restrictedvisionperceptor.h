@@ -31,6 +31,7 @@
 #include <agentstate/agentstate.h>
 #include "../line/line.h"
 #include "../ball/ball.h"
+#include "../fieldfeature/fieldfeature.h"
 
 class RestrictedVisionPerceptor : public oxygen::Perceptor
 {
@@ -76,7 +77,20 @@ protected:
       ObjectData mEndPoint;
     };
 
+    struct FieldFeatureData
+    {
+        boost::shared_ptr<FieldFeature> mFieldFeature;
+        float mTheta;  // angle in the X-Y (horizontal) plane
+        float mPhi;    // latitude angle
+        float mDist;  // distance between perceptor and object
+        salt::Vector3f mRelPos; //position relative to perceptor
+        float mOrientation; //absolute orientation in X-Y plane
+        float mRelOrientation; // relative orientation of orientation to robot (using runswift conventions)
+        std::string mType; // CORNER, T_JUNCTION or CENTRE_CIRCLE
+    };
+
     typedef std::list<LineData> TLineList;
+    typedef std::list<FieldFeatureData> TFieldFeatureList;
 
 public:
     RestrictedVisionPerceptor();
@@ -96,11 +110,13 @@ public:
      * \param sigma_dist the sigma for the distance error distribution
      * \param sigma_phi the sigma for the horizontal angle error distribution
      * \param sigma_theta the sigma for the latitudal angle error distribution
+     * \param sigma_rel_orientation the sigma for relative orientation angle error distribution
      * \param cal_error_abs absolute value of the maximum calibration error
      *                      along each axis.
      */
     void SetNoiseParams(float sigma_dist, float sigma_phi,
-                        float sigma_theta, float cal_error_abs);
+                        float sigma_theta, float sigma_rel_orientation,
+                        float cal_error_abs);
 
     //! Turn sensing of agent position on/off
     void SetSenseMyPos(bool sense);
@@ -113,6 +129,9 @@ public:
 
     // turn sensing of lines on/off
     void SetSenseLine(bool sense);
+
+    // turn sensing of fieldfeatures on/off
+    void SetSenseFieldFeature(bool sense);
 
     /** Turn noise off/on.
         \param add_noise flag if noise should be used at all.
@@ -187,6 +206,11 @@ protected:
 
     void SetupLines(TLineList& visibleLines);
 
+    /** Percept field features in the world */
+    void SenseFieldFeature(oxygen::Predicate& predicate);
+
+    void SetupFieldFeatures(TFieldFeatureList& visibleFieldFeatures);
+
     bool CheckVisuable(ObjectData& od) const;
 
     /** Checks if the given object is occluded, seen from from my_pos */
@@ -202,8 +226,14 @@ protected:
     void AddSense(oxygen::Predicate& predicate,
                   const TLineList& lineList) const;
 
+    void AddSense(oxygen::Predicate& predicate,
+                  const TFieldFeatureList& fieldFeatureList) const;
+
     /** applies noise to the setup ObjectData */
     void ApplyNoise(ObjectData& od) const;
+
+    /** applies noise to the setup FieldFeatureData */
+    void ApplyNoiseFieldFeature(FieldFeatureData& ffd) const;
 
     virtual void OnLink();
     virtual void OnUnlink();
@@ -227,6 +257,8 @@ protected:
     float mSigmaTheta;
     //! sigma for random measurement error (latitudal angle)
     float mSigmaPhi;
+    //! sigma for random measurement error (relative orientation)
+    float mSigmaRelOrientation;    
     //! absolute maximum value of the calibration error
     float mCalErrorAbs;
     //! flag if we should noisify the data
@@ -239,6 +271,9 @@ protected:
 
     /** flag if the lines can be sensed */
     bool mSenseLine;
+
+    /** flag if the lines can be sensed */
+    bool mSenseFieldFeature;  
 
     //! horizontal opening of the vision cone
     unsigned int mHViewCone;
@@ -266,6 +301,8 @@ protected:
     NormalRngPtr mThetaRng;
     //! random number generator for angle errors
     NormalRngPtr mPhiRng;
+    //! random number generator for relative orientation errors
+    NormalRngPtr mRelOrientationRng;
 
     boost::shared_ptr<oxygen::Scene> mActiveScene;
     //! a reference to the next transorm parent

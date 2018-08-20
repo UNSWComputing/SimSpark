@@ -1,0 +1,18 @@
+; -*- mode: lisp; -*-
+;
+; create a t-junction at ($PosX $PosY $Orientation) named $Name with the
+; given $Material
+;
+
+(RSG 0 1)
+(
+    (templ $PosX $PosY $Orientation)
+
+    (nd Transform
+        (setLocalPos $PosX $PosY 0)
+        (nd FieldFeature
+           (setOrientation $Orientation)
+           (setType T_JUNCTION)
+        )
+    )
+)

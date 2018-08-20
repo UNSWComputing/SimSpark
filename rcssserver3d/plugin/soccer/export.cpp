@@ -55,6 +55,7 @@
 #include "hmdp_effector/hmdpeffector.h"
 #include "hmdp_effector/hmdpperceptor.h"
 #include "line/line.h"
+#include "fieldfeature/fieldfeature.h"
 #include "agentcollisionhandler/agentcollisionhandler.h"
 #include "rcs3dmonitor/rcs3dmonitor.h"
 
@@ -94,6 +95,7 @@ ZEITGEIST_EXPORT_BEGIN()
         ZEITGEIST_EXPORT(HMDPPerceptor);
         ZEITGEIST_EXPORT(HMDPEffector);
         ZEITGEIST_EXPORT(Line);
+        ZEITGEIST_EXPORT(FieldFeature);
         ZEITGEIST_EXPORT(AgentCollisionHandler);
         ZEITGEIST_EXPORT(RCS3DMonitor);
 ZEITGEIST_EXPORT_END()
