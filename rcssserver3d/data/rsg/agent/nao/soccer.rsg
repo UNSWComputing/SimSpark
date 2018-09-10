@@ -238,6 +238,30 @@
 	      (eval -1 * $FieldHalfWidth)
        90
          )
+   ;; Left T-junction top
+   (importScene rsg/agent/t_junction.rsg
+        (eval -1 * $FieldHalfLength)
+       $PenaltyHalfWidth
+       0
+         )
+    ;; Left T-junction bottom
+    (importScene rsg/agent/t_junction.rsg
+         (eval -1 * $FieldHalfLength)
+         (eval -1 * $PenaltyHalfWidth)
+         0
+           )
+     ;; Right T-junction top
+     (importScene rsg/agent/t_junction.rsg
+          $FieldHalfLength
+         $PenaltyHalfWidth
+         -180
+           )
+      ;; Right T-junction bottom
+      (importScene rsg/agent/t_junction.rsg
+            $FieldHalfLength
+           (eval -1 * $PenaltyHalfWidth)
+           -180
+             )
 
  ;;
  ;; add centre circle
