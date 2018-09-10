@@ -199,26 +199,26 @@
 	      )
   ;; Right top goal box corner
   (importScene rsg/agent/corner.rsg
- 	      $FieldHalfLength - $PenaltyLength
+ 	      (eval $FieldHalfLength - $PenaltyLength)
  	      $PenaltyHalfWidth
  		  -45
  	      )
 
   ;; Right bottom goal box corner
   (importScene rsg/agent/corner.rsg
- 	      $FieldHalfLength - $PenaltyLength
+ 	      (eval $FieldHalfLength - $PenaltyLength)
  	      (eval -1 * $PenaltyHalfWidth)
  		  45
  	      )
   ;; Right top corner
   (importScene rsg/agent/corner.rsg
- 	      (eval -1 * $FieldHalfLength)
+ 	      $FieldHalfLength
  	      $FieldHalfWidth
  		  -135
  	      )
   ;; Right bottom corner
   (importScene rsg/agent/corner.rsg
- 	      (eval -1 * $FieldHalfLength)
+ 	      $FieldHalfLength
  	      (eval -1 * $FieldHalfWidth)
  		  135
  	      )
