@@ -31,7 +31,7 @@
  (def $BorderLength (eval $FieldLength * 0.333))
  (def $BorderWidth   (eval $FieldWidth * 0.75))
  (def $SideExt 1)
- 
+
  ;;
  ;; construct playing field
  ;;
@@ -117,14 +117,14 @@
 
  (def $SideLength (eval $SideExt + (eval $FieldLength + (eval 2 * $BorderLength))))
  (def $SideWidth (eval $SideExt + (eval $FieldWidth + (eval 2 * $BorderWidth))))
- 
+
 ; create left side wall
  (nd Transform
        (setLocalPos (eval -1 * (eval $FieldHalfLength + $BorderLength)) 0 0)
        (nd Box
 	     (setMaterial matGrey)
 	     (setExtents $SideExt $SideWidth $SideExt)
-	     ) 
+	     )
        (nd BoxCollider
         (setBoxLengths $SideExt $SideWidth $SideExt)
        )
@@ -136,7 +136,7 @@
        (nd Box
 	     (setMaterial matGrey)
 	     (setExtents $SideExt $SideWidth $SideExt)
-	     ) 
+	     )
        (nd BoxCollider
         (setBoxLengths $SideExt $SideWidth $SideExt)
        )
@@ -148,7 +148,7 @@
        (nd Box
 	     (setMaterial matGrey)
 	     (setExtents $SideLength $SideExt $SideExt)
-	     ) 
+	     )
        (nd BoxCollider
         (setBoxLengths $SideLength $SideExt $SideExt)
        )
@@ -160,7 +160,7 @@
        (nd Box
 	     (setMaterial matGrey)
 	     (setExtents $SideLength $SideExt $SideExt)
-	     ) 
+	     )
        (nd BoxCollider
         (setBoxLengths $SideLength $SideExt $SideExt)
        )
@@ -172,14 +172,14 @@
 
  ;; Left top corner
  (importScene rsg/agent/corner.rsg
-	      (eval -1 * $FieldHalfLength)  
+	      (eval -1 * $FieldHalfLength)
 	      $FieldHalfWidth
 		  -45
 	      )
 
  ;; Left bottom corner
  (importScene rsg/agent/corner.rsg
-	      (eval -1 * $FieldHalfLength)  
+	      (eval -1 * $FieldHalfLength)
 	      (eval -1 * $FieldHalfWidth)
 		  45
 	      )
@@ -208,6 +208,12 @@
 		  $FieldHalfWidth
 		  -90
 	      )
+  ;; T-junction bottom
+  (importScene rsg/agent/t_junction.rsg
+         0
+	      (eval -1 * $FieldHalfWidth)
+       90
+         )
 
  ;;
  ;; add centre circle
