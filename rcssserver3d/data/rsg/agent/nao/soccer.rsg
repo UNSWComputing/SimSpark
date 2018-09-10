@@ -31,7 +31,7 @@
  (def $BorderLength (eval $FieldLength * 0.333))
  (def $BorderWidth   (eval $FieldWidth * 0.75))
  (def $SideExt 1)
- 
+
  ;;
  ;; construct playing field
  ;;
@@ -117,14 +117,14 @@
 
  (def $SideLength (eval $SideExt + (eval $FieldLength + (eval 2 * $BorderLength))))
  (def $SideWidth (eval $SideExt + (eval $FieldWidth + (eval 2 * $BorderWidth))))
- 
+
 ; create left side wall
  (nd Transform
        (setLocalPos (eval -1 * (eval $FieldHalfLength + $BorderLength)) 0 0)
        (nd Box
 	     (setMaterial matGrey)
 	     (setExtents $SideExt $SideWidth $SideExt)
-	     ) 
+	     )
        (nd BoxCollider
         (setBoxLengths $SideExt $SideWidth $SideExt)
        )
@@ -136,7 +136,7 @@
        (nd Box
 	     (setMaterial matGrey)
 	     (setExtents $SideExt $SideWidth $SideExt)
-	     ) 
+	     )
        (nd BoxCollider
         (setBoxLengths $SideExt $SideWidth $SideExt)
        )
@@ -148,7 +148,7 @@
        (nd Box
 	     (setMaterial matGrey)
 	     (setExtents $SideLength $SideExt $SideExt)
-	     ) 
+	     )
        (nd BoxCollider
         (setBoxLengths $SideLength $SideExt $SideExt)
        )
@@ -160,28 +160,28 @@
        (nd Box
 	     (setMaterial matGrey)
 	     (setExtents $SideLength $SideExt $SideExt)
-	     ) 
+	     )
        (nd BoxCollider
         (setBoxLengths $SideLength $SideExt $SideExt)
        )
        )
 
+
+ ;; FieldFeatures (rUNSWift specific)
+ ;;  The following has been added to deal with fieldfeatures required for rUNSWift.
+ ;;   NOTE: The words "Left", "Top" describe the location of the field FieldFeatures
+ ;;         as if we're looking at the field on offnao. (It is not "left" or "top" 
+ ;;         from the robot's coordinate systems)
+ 
  ;;
  ;; add corners
  ;;
 
  ;; Left top corner
  (importScene rsg/agent/corner.rsg
-	      (eval -1 * $FieldHalfLength)  
+	      (eval -1 * $FieldHalfLength)
 	      $FieldHalfWidth
 		  -45
-	      )
-
- ;; Left bottom corner
- (importScene rsg/agent/corner.rsg
-	      (eval -1 * $FieldHalfLength)  
-	      (eval -1 * $FieldHalfWidth)
-		  45
 	      )
 
  ;; Left top goal box corner
@@ -198,16 +198,86 @@
 		  135
 	      )
 
+ ;; Left bottom corner
+ (importScene rsg/agent/corner.rsg
+	      (eval -1 * $FieldHalfLength)
+	      (eval -1 * $FieldHalfWidth)
+		  45
+	      )
+
+ ;; Right top corner
+ (importScene rsg/agent/corner.rsg
+ 	      $FieldHalfLength
+ 	      $FieldHalfWidth
+ 		  -135
+ 	      )
+
+ ;; Right top goal box corner
+ (importScene rsg/agent/corner.rsg
+ 	      (eval $FieldHalfLength - $PenaltyLength)
+ 	      $PenaltyHalfWidth
+ 		  -45
+ 	      )
+
+ ;; Right bottom goal box corner
+ (importScene rsg/agent/corner.rsg
+ 	      (eval $FieldHalfLength - $PenaltyLength)
+ 	      (eval -1 * $PenaltyHalfWidth)
+ 		  45
+ 	      )
+
+ ;; Right bottom corner
+ (importScene rsg/agent/corner.rsg
+ 	      $FieldHalfLength
+ 	      (eval -1 * $FieldHalfWidth)
+ 		  135
+ 	      )
+
  ;;
  ;; add T-junctions
  ;;
 
- ;; T-junction top
+ ;; Left T-junction top
+ (importScene rsg/agent/t_junction.rsg
+          (eval -1 * $FieldHalfLength)
+          $PenaltyHalfWidth
+          0
+          )
+
+ ;; Left T-junction bottom
+ (importScene rsg/agent/t_junction.rsg
+          (eval -1 * $FieldHalfLength)
+          (eval -1 * $PenaltyHalfWidth)
+          0
+          )
+
+ ;; Centre T-junction top
  (importScene rsg/agent/t_junction.rsg
 	      0
 		  $FieldHalfWidth
 		  -90
 	      )
+
+ ;; Centre T-junction bottom
+ (importScene rsg/agent/t_junction.rsg
+          0
+	      (eval -1 * $FieldHalfWidth)
+      	  90
+          )
+
+ ;; Right T-junction top
+ (importScene rsg/agent/t_junction.rsg
+          $FieldHalfLength
+          $PenaltyHalfWidth
+          -180
+          )
+
+ ;; Right T-junction bottom
+ (importScene rsg/agent/t_junction.rsg
+		  $FieldHalfLength
+		  (eval -1 * $PenaltyHalfWidth)
+		  -180
+		  )
 
  ;;
  ;; add centre circle
