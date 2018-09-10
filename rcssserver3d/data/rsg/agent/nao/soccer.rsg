@@ -197,7 +197,19 @@
 	      (eval -1 * $PenaltyHalfWidth)
 		  135
 	      )
+  ;; Right top goal box corner
+  (importScene rsg/agent/corner.rsg
+ 	      $FieldHalfLength - $PenaltyLength
+ 	      $PenaltyHalfWidth
+ 		  -45
+ 	      )
 
+  ;; Right bottom goal box corner
+  (importScene rsg/agent/corner.rsg
+ 	      $FieldHalfLength - $PenaltyLength
+ 	      (eval -1 * $PenaltyHalfWidth)
+ 		  45
+ 	      )
  ;;
  ;; add T-junctions
  ;;
