@@ -210,17 +210,29 @@
  	      (eval -1 * $PenaltyHalfWidth)
  		  45
  	      )
+  ;; Right top corner
+  (importScene rsg/agent/corner.rsg
+ 	      (eval -1 * $FieldHalfLength)
+ 	      $FieldHalfWidth
+ 		  -135
+ 	      )
+  ;; Right bottom corner
+  (importScene rsg/agent/corner.rsg
+ 	      (eval -1 * $FieldHalfLength)
+ 	      (eval -1 * $FieldHalfWidth)
+ 		  135
+ 	      )
  ;;
  ;; add T-junctions
  ;;
 
- ;; T-junction top
+ ;; Centre T-junction top
  (importScene rsg/agent/t_junction.rsg
 	      0
 		  $FieldHalfWidth
 		  -90
 	      )
-  ;; T-junction bottom
+  ;; Centre T-junction bottom
   (importScene rsg/agent/t_junction.rsg
          0
 	      (eval -1 * $FieldHalfWidth)
