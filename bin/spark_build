@@ -1,0 +1,3 @@
+#!/bin/sh
+cd ${RUNSWIFT_CHECKOUT_DIR}/../simspark/spark/build
+sudo make install

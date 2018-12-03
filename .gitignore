@@ -399,3 +399,6 @@ spark/utility/tinyxml/.deps
 spark/utility/tinyxml/.libs
 spark/utility/tinyxml/Makefile
 spark/utility/tinyxml/Makefile.in
+rcssserver3d/build/*
+spark/build/*
+.svn/*
