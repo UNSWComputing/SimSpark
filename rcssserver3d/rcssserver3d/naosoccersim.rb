@@ -65,7 +65,7 @@ addSoccerVar('AutomaticKickOff', false)
 addSoccerVar('WaitBeforeKickOff', 30.0)
 addSoccerVar('CoinTossForKickOff', false)
 addSoccerVar('PenaltyShootout', false)
-addSoccerVar('StartAnyFieldPosition', false)
+addSoccerVar('StartAnyFieldPosition', true)
 
 addSoccerVar('AutomaticQuit', false)
 addSoccerVar('ChangeSidesInSecondHalf', false)
