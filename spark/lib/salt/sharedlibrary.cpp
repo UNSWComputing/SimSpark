@@ -80,6 +80,16 @@ SharedLibrary::Open(const std::string &libName)
 #endif
     mLibHandle = ::dlopen((libName + ".so").c_str(), RTLD_LAZY);
 
+    if(mLibHandle == 0){
+        std::cout << "Looking in /usr/local/lib/simspark/ \n";
+         mLibHandle = ::dlopen(("/usr/local/lib/simspark/" + libName + ".so").c_str(), RTLD_LAZY);
+    }
+
+        if(mLibHandle == 0){
+        std::cout << "Looking in /usr/local/lib/rcssserver3d/ \n";
+         mLibHandle = ::dlopen(("/usr/local/lib/rcssserver3d/" + libName + ".so").c_str(), RTLD_LAZY);
+    }
+
     if (mLibHandle == 0)
     {   // we didn't find the plugin, so we try again...
         /* mainly to work with MacOS bundles, so that plugins can be located like this:
