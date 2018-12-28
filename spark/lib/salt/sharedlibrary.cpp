@@ -80,14 +80,13 @@ SharedLibrary::Open(const std::string &libName)
 #endif
     mLibHandle = ::dlopen((libName + ".so").c_str(), RTLD_LAZY);
 
+    // Update to Ubuntu 18.04 meant plugins were no longer being found...
+    // Added the following two paths to fix the problem
     if(mLibHandle == 0){
-        std::cout << "Looking in /usr/local/lib/simspark/ \n";
-         mLibHandle = ::dlopen(("/usr/local/lib/simspark/" + libName + ".so").c_str(), RTLD_LAZY);
+        mLibHandle = ::dlopen(("/usr/local/lib/simspark/" + libName + ".so").c_str(), RTLD_LAZY);
     }
-
         if(mLibHandle == 0){
-        std::cout << "Looking in /usr/local/lib/rcssserver3d/ \n";
-         mLibHandle = ::dlopen(("/usr/local/lib/rcssserver3d/" + libName + ".so").c_str(), RTLD_LAZY);
+        mLibHandle = ::dlopen(("/usr/local/lib/rcssserver3d/" + libName + ".so").c_str(), RTLD_LAZY);
     }
 
     if (mLibHandle == 0)
