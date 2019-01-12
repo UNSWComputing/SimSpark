@@ -97,8 +97,8 @@
 
         (nd RestrictedVisionPerceptor
             (setViewCones 120 120)
-            (setSenseMyPos false)
-            (setSenseMyOrien false)
+            (setSenseMyPos true)
+            (setSenseMyOrien true)
             (setSenseBallPos false)
             (setStaticSenseAxis false)
             (addNoise true)
