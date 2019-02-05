@@ -112,6 +112,10 @@ add_definitions(-DHAVE_CONFIG_H ${ODE_CFLAGS})
 include_directories(${CMAKE_BINARY_DIR} ${Boost_INCLUDE_DIRS} ${ODE_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
+if(RCSSSERVER3D_INSTALL_PATH)
+    add_definitions(-DRCSSSERVER3D_INSTALL_PATH=${RCSSSERVER3D_INSTALL_PATH})
+endif(RCSSSERVER3D_INSTALL_PATH)
+
 if (UNIX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Woverloaded-virtual")
 endif (UNIX)
