@@ -1,3 +1,3 @@
 #!/bin/sh
-cd ${RUNSWIFT_CHECKOUT_DIR}/../simspark/rcssserver3d/build
-sudo make install -j8
+cd ${RUNSWIFT_CHECKOUT_DIR}/softwares/simspark/rcssserver3d/build
+make install
