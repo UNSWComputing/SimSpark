@@ -103,28 +103,28 @@
     ;Size and Mass Parameters
     ;
     (def $Hip1Radius 0.01)
-    (def $Hip1Mass   0.09)
+    (def $Hip1Mass   0.06981)
 
     (def $Hip2Radius 0.01)
-    (def $Hip2Mass   0.125)
+    (def $Hip2Mass   0.14053)
 
     (def $ThighSizeX 0.07)
     (def $ThighSizeY 0.07)
     (def $ThighSizeZ 0.14)
-    (def $ThighMass  0.275)
+    (def $ThighMass  0.38968)
 
     (def $ShankSizeX 0.08)
     (def $ShankSizeY 0.07)
     (def $ShankSizeZ 0.11)
-    (def $ShankMass  0.225)
+    (def $ShankMass  0.30142)
 
     (def $AnkleRadius 0.01)
-    (def $AnkleMass   0.125)
+    (def $AnkleMass   0.13416)
 
     (def $FootSizeX   0.08)
     (def $FootSizeY   0.16)
     (def $FootSizeZ   0.02)
-    (def $FootMass    0.2)
+    (def $FootMass    0.17184)
 
 
     ;

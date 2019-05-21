@@ -74,20 +74,21 @@
     ;Size and Mass Parameters
     ;
     (def $ShoulderRadius 0.01)
-    (def $ShoulderMass   0.07)
+    (def $ShoulderMass   0.09304)
 
     (def $UpperArmSizeX  0.07)
     (def $UpperArmSizeY  0.08)
     (def $UpperArmSizeZ  0.06)
-    (def $UpperArmMass   0.150)
+    (def $UpperArmMass   0.15777)
 
     (def $ElbowRadius    0.01)
-    (def $ElbowMass      0.035)
+    (def $ElbowMass      0.06483)
 
     (def $LowerArmSizeX  0.05)
     (def $LowerArmSizeY  0.11)
     (def $LowerArmSizeZ  0.05)
-    (def $LowerArmMass   0.2)
+    (def $LowerArmMass   (eval 0.07761 + 0.18533))
+    ; lower arm mass is sum of forearm and hand mass from an actual V5 robot
 
 
     ;
