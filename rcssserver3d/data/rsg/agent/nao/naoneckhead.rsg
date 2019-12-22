@@ -99,7 +99,7 @@
             (setViewCones 120 120)
             (setSenseMyPos true)
             (setSenseMyOrien true)
-            (setSenseBallPos false)
+            (setSenseBallPos true)
             (setStaticSenseAxis false)
             (addNoise true)
             (setInterval 3)

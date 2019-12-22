@@ -132,8 +132,8 @@ addSoccerVar('ReportScore', true)
 addSoccerVar('LabelMessages', true)
 
 # Noise added to requested beam positions
-addSoccerVar('BeamNoiseXY',0.05)
-addSoccerVar('BeamNoiseAngle',10.0)
+addSoccerVar('BeamNoiseXY',0.0)
+addSoccerVar('BeamNoiseAngle',0.0)
 
 # auto ref parameters for testing (not for use in competition...)
 #addSoccerVar('NotStandingMaxTime',10)       
