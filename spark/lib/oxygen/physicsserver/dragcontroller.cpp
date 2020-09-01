@@ -28,6 +28,8 @@ DragController::DragController()
 {
     mLinearDrag = 0.1f;
     mAngularDrag = 0.1f;
+    mStillness = 0.0f;
+    mStillnessBase = 1.0f;
 }
 
 DragController::~DragController()
@@ -54,6 +56,17 @@ void DragController::PrePhysicsUpdateInternal(float /*deltaTime*/)
         Vector3f vel = mBody->GetAngularVelocity() * mAngularDrag * -1;
         mBody->AddTorque(vel);
     }
+
+    if (mStillness > 0)
+    {
+        // apply linear drag
+        Vector3f vel = mBody->GetVelocity();
+        mBody->AddForce(vel * pow(mStillnessBase, -vel.Length()) * mStillness * mLinearDrag * -1);
+
+        // apply angular drag
+        Vector3f avel = mBody->GetAngularVelocity();
+        mBody->AddTorque(avel * pow(mStillnessBase, -avel.Length()) * mStillness * mAngularDrag * -1);
+    }
 }
 
 float DragController::GetLinearDrag() const
@@ -76,4 +89,22 @@ void DragController::SetAngularDrag(float d)
     mAngularDrag = d;
 }
 
+float DragController::GetStillness() const
+{
+    return mStillness;
+}
 
+void DragController::SetStillness(float d)
+{
+    mStillness = d;
+}
+
+float DragController::GetStillnessBase() const
+{
+    return mStillnessBase;
+}
+
+void DragController::SetStillnessBase(float d)
+{
+    mStillnessBase = d;
+}

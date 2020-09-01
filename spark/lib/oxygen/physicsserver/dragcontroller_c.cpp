@@ -65,6 +65,48 @@ FUNCTION(DragController,setAngularDrag)
         return true;
 }
 
+FUNCTION(DragController,getStillness)
+{
+    return obj->GetStillness();
+}
+
+FUNCTION(DragController,setStillness)
+{
+    float inDrag;
+
+    if (
+        (in.GetSize() != 1) ||
+        (! in.GetValue(in.begin(), inDrag))
+         )
+        {
+            return false;
+        }
+
+        obj->SetStillness(inDrag);
+        return true;
+}
+
+FUNCTION(DragController,getStillnessBase)
+{
+    return obj->GetStillnessBase();
+}
+
+FUNCTION(DragController,setStillnessBase)
+{
+    float inDrag;
+
+    if (
+        (in.GetSize() != 1) ||
+        (! in.GetValue(in.begin(), inDrag))
+         )
+        {
+            return false;
+        }
+
+        obj->SetStillnessBase(inDrag);
+        return true;
+}
+
 void CLASS(DragController)::DefineClass()
 {
     DEFINE_BASECLASS(oxygen/BodyController);
@@ -72,4 +114,8 @@ void CLASS(DragController)::DefineClass()
     DEFINE_FUNCTION(setLinearDrag);
     DEFINE_FUNCTION(getAngularDrag);
     DEFINE_FUNCTION(setAngularDrag);
+    DEFINE_FUNCTION(getStillness);
+    DEFINE_FUNCTION(setStillness);
+    DEFINE_FUNCTION(getStillnessBase);
+    DEFINE_FUNCTION(setStillnessBase);
 }
