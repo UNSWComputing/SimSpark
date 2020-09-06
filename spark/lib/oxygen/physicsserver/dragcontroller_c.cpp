@@ -72,17 +72,17 @@ FUNCTION(DragController,getStillness)
 
 FUNCTION(DragController,setStillness)
 {
-    float inDrag;
+    float inStillness;
 
     if (
         (in.GetSize() != 1) ||
-        (! in.GetValue(in.begin(), inDrag))
+        (! in.GetValue(in.begin(), inStillness))
          )
         {
             return false;
         }
 
-        obj->SetStillness(inDrag);
+        obj->SetStillness(inStillness);
         return true;
 }
 
@@ -93,17 +93,17 @@ FUNCTION(DragController,getStillnessBase)
 
 FUNCTION(DragController,setStillnessBase)
 {
-    float inDrag;
+    float inStillnessBase;
 
     if (
         (in.GetSize() != 1) ||
-        (! in.GetValue(in.begin(), inDrag))
+        (! in.GetValue(in.begin(), inStillnessBase))
          )
         {
             return false;
         }
 
-        obj->SetStillnessBase(inDrag);
+        obj->SetStillnessBase(inStillnessBase);
         return true;
 }
 
