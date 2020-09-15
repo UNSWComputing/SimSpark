@@ -67,43 +67,43 @@ FUNCTION(DragController,setAngularDrag)
 
 FUNCTION(DragController,getStillness)
 {
-    return obj->GetStillness();
+    return obj->GetDeceleratorFactor();
 }
 
 FUNCTION(DragController,setStillness)
 {
-    float inStillness;
+    float inDeceleratorFactor;
 
     if (
         (in.GetSize() != 1) ||
-        (! in.GetValue(in.begin(), inStillness))
+        (! in.GetValue(in.begin(), inDeceleratorFactor))
          )
         {
             return false;
         }
 
-        obj->SetStillness(inStillness);
+        obj->SetDeceleratorFactor(inDeceleratorFactor);
         return true;
 }
 
 FUNCTION(DragController,getStillnessBase)
 {
-    return obj->GetStillnessBase();
+    return obj->GetDeceleratorBase();
 }
 
 FUNCTION(DragController,setStillnessBase)
 {
-    float inStillnessBase;
+    float inDeceleratorBase;
 
     if (
         (in.GetSize() != 1) ||
-        (! in.GetValue(in.begin(), inStillnessBase))
+        (! in.GetValue(in.begin(), inDeceleratorBase))
          )
         {
             return false;
         }
 
-        obj->SetStillnessBase(inStillnessBase);
+        obj->SetDeceleratorBase(inDeceleratorBase);
         return true;
 }
 

@@ -28,8 +28,8 @@ DragController::DragController()
 {
     mLinearDrag = 0.1f;
     mAngularDrag = 0.1f;
-    mStillness = 0.0f;
-    mStillnessBase = 1.0f;
+    mDeceleratorFactor = 0.0f;
+    mDeceleratorBase = 1.0f;
 }
 
 DragController::~DragController()
@@ -57,15 +57,15 @@ void DragController::PrePhysicsUpdateInternal(float /*deltaTime*/)
         mBody->AddTorque(vel);
     }
 
-    if (mStillness > 0)
+    if (mDeceleratorFactor > 0)
     {
         // apply linear drag
         Vector3f vel = mBody->GetVelocity();
-        mBody->AddForce(vel * pow(mStillnessBase, -vel.Length()) * mStillness * mLinearDrag * -1);
+        mBody->AddForce(vel * pow(mDeceleratorBase, -vel.Length()) * mDeceleratorFactor * mLinearDrag * -1);
 
         // apply angular drag
         Vector3f avel = mBody->GetAngularVelocity();
-        mBody->AddTorque(avel * pow(mStillnessBase, -avel.Length()) * mStillness * mAngularDrag * -1);
+        mBody->AddTorque(avel * pow(mDeceleratorBase, -avel.Length()) * mDeceleratorFactor * mAngularDrag * -1);
     }
 }
 
@@ -89,22 +89,22 @@ void DragController::SetAngularDrag(float d)
     mAngularDrag = d;
 }
 
-float DragController::GetStillness() const
+float DragController::GetDeceleratorFactor() const
 {
-    return mStillness;
+    return mDeceleratorFactor;
 }
 
-void DragController::SetStillness(float d)
+void DragController::SetDeceleratorFactor(float d)
 {
-    mStillness = d;
+    mDeceleratorFactor = d;
 }
 
-float DragController::GetStillnessBase() const
+float DragController::GetDeceleratorBase() const
 {
-    return mStillnessBase;
+    return mDeceleratorBase;
 }
 
-void DragController::SetStillnessBase(float d)
+void DragController::SetDeceleratorBase(float d)
 {
-    mStillnessBase = d;
+    mDeceleratorBase = d;
 }
