@@ -65,12 +65,12 @@ FUNCTION(DragController,setAngularDrag)
         return true;
 }
 
-FUNCTION(DragController,getStillness)
+FUNCTION(DragController,getDeceleratorFactor)
 {
     return obj->GetDeceleratorFactor();
 }
 
-FUNCTION(DragController,setStillness)
+FUNCTION(DragController,setDeceleratorFactor)
 {
     float inDeceleratorFactor;
 
@@ -86,12 +86,12 @@ FUNCTION(DragController,setStillness)
         return true;
 }
 
-FUNCTION(DragController,getStillnessBase)
+FUNCTION(DragController,getDeceleratorBase)
 {
     return obj->GetDeceleratorBase();
 }
 
-FUNCTION(DragController,setStillnessBase)
+FUNCTION(DragController,setDeceleratorBase)
 {
     float inDeceleratorBase;
 
@@ -114,8 +114,8 @@ void CLASS(DragController)::DefineClass()
     DEFINE_FUNCTION(setLinearDrag);
     DEFINE_FUNCTION(getAngularDrag);
     DEFINE_FUNCTION(setAngularDrag);
-    DEFINE_FUNCTION(getStillness);
-    DEFINE_FUNCTION(setStillness);
-    DEFINE_FUNCTION(getStillnessBase);
-    DEFINE_FUNCTION(setStillnessBase);
+    DEFINE_FUNCTION(getDeceleratorFactor);
+    DEFINE_FUNCTION(setDeceleratorFactor);
+    DEFINE_FUNCTION(getDeceleratorBase);
+    DEFINE_FUNCTION(setDeceleratorBase);
 }

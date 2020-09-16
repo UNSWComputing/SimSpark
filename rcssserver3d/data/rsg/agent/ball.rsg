@@ -22,8 +22,8 @@
 	 (nd DragController
 	     (setAngularDrag 0.00004)
 	     (setLinearDrag 0.018)
-	     (setStillness 1.5)
-	     (setStillnessBase 3)
+	     (setDeceleratorFactor 1.5)
+	     (setDeceleratorBase 3)
 	 )
      )
      
