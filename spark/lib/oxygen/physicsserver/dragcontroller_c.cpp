@@ -65,6 +65,48 @@ FUNCTION(DragController,setAngularDrag)
         return true;
 }
 
+FUNCTION(DragController,getDeceleratorFactor)
+{
+    return obj->GetDeceleratorFactor();
+}
+
+FUNCTION(DragController,setDeceleratorFactor)
+{
+    float inDeceleratorFactor;
+
+    if (
+        (in.GetSize() != 1) ||
+        (! in.GetValue(in.begin(), inDeceleratorFactor))
+         )
+        {
+            return false;
+        }
+
+        obj->SetDeceleratorFactor(inDeceleratorFactor);
+        return true;
+}
+
+FUNCTION(DragController,getDeceleratorBase)
+{
+    return obj->GetDeceleratorBase();
+}
+
+FUNCTION(DragController,setDeceleratorBase)
+{
+    float inDeceleratorBase;
+
+    if (
+        (in.GetSize() != 1) ||
+        (! in.GetValue(in.begin(), inDeceleratorBase))
+         )
+        {
+            return false;
+        }
+
+        obj->SetDeceleratorBase(inDeceleratorBase);
+        return true;
+}
+
 void CLASS(DragController)::DefineClass()
 {
     DEFINE_BASECLASS(oxygen/BodyController);
@@ -72,4 +114,8 @@ void CLASS(DragController)::DefineClass()
     DEFINE_FUNCTION(setLinearDrag);
     DEFINE_FUNCTION(getAngularDrag);
     DEFINE_FUNCTION(setAngularDrag);
+    DEFINE_FUNCTION(getDeceleratorFactor);
+    DEFINE_FUNCTION(setDeceleratorFactor);
+    DEFINE_FUNCTION(getDeceleratorBase);
+    DEFINE_FUNCTION(setDeceleratorBase);
 }

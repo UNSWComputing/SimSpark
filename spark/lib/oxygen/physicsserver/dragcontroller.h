@@ -49,6 +49,18 @@ public:
 
     // sets the applied angular drag
     void SetAngularDrag(float d);
+    
+    // returns the strength of the stopping force
+    float GetDeceleratorFactor() const;
+
+    // sets the strength of the stopping force
+    void SetDeceleratorFactor(float d);
+    
+    // returns the base of the exponential used to calculate the stopping force
+    float GetDeceleratorBase() const;
+
+    // sets the base of the exponential used to calculate the stopping force
+    void SetDeceleratorBase(float d);
 
 protected:
     /** calculates and applies the force needed to perfom the drag */
@@ -63,6 +75,13 @@ protected:
 
     // the applied angual drag acceleration
     float mAngularDrag;
+    
+    // the strength of the stopping force
+    float mDeceleratorFactor;
+    
+    // the base of the exponential used to calculate the stopping force
+    float mDeceleratorBase;
+
 };
 
 DECLARE_CLASS(DragController);

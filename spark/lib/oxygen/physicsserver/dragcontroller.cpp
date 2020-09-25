@@ -28,6 +28,8 @@ DragController::DragController()
 {
     mLinearDrag = 0.1f;
     mAngularDrag = 0.1f;
+    mDeceleratorFactor = 0.0f;
+    mDeceleratorBase = 1.0f;
 }
 
 DragController::~DragController()
@@ -54,6 +56,17 @@ void DragController::PrePhysicsUpdateInternal(float /*deltaTime*/)
         Vector3f vel = mBody->GetAngularVelocity() * mAngularDrag * -1;
         mBody->AddTorque(vel);
     }
+
+    if (mDeceleratorFactor > 0)
+    {
+        // apply linear drag
+        Vector3f vel = mBody->GetVelocity();
+        mBody->AddForce(vel * pow(mDeceleratorBase, -vel.Length()) * mDeceleratorFactor * mLinearDrag * -1);
+
+        // apply angular drag
+        Vector3f avel = mBody->GetAngularVelocity();
+        mBody->AddTorque(avel * pow(mDeceleratorBase, -avel.Length()) * mDeceleratorFactor * mAngularDrag * -1);
+    }
 }
 
 float DragController::GetLinearDrag() const
@@ -76,4 +89,22 @@ void DragController::SetAngularDrag(float d)
     mAngularDrag = d;
 }
 
+float DragController::GetDeceleratorFactor() const
+{
+    return mDeceleratorFactor;
+}
 
+void DragController::SetDeceleratorFactor(float d)
+{
+    mDeceleratorFactor = d;
+}
+
+float DragController::GetDeceleratorBase() const
+{
+    return mDeceleratorBase;
+}
+
+void DragController::SetDeceleratorBase(float d)
+{
+    mDeceleratorBase = d;
+}
