@@ -402,3 +402,6 @@ spark/utility/tinyxml/Makefile.in
 rcssserver3d/build/*
 spark/build/*
 .svn/*
+
+spark/installed/*
+rcssserver3d/installed/*
