@@ -359,6 +359,6 @@
 ;;
 ;; add the ball
 ;;
- (importScene rsg/agent/ball.rsg)
+ (importScene rsg/agent/ball.rsg 0 0)
 
  )

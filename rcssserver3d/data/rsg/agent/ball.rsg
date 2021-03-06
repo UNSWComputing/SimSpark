@@ -2,12 +2,13 @@
 
 (RSG 0 1)
 (
+ (templ $X $Y)
  (def $Radius (eval Soccer.BallRadius))
  (def $Material matOrange)
  (def $Mass (eval Soccer.BallMass))
 
  (nd Ball
-     (setLocalPos 0.0 0.0 $Radius)
+     (setLocalPos $X $Y $Radius)
      (setName Ball)
      
      (nd StaticMesh
